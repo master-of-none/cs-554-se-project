@@ -1,4 +1,4 @@
-# cs-554-se-project <br>
+# image-text-translation <br>
 # Description 
 A program capable of translating text in images from various languages into English, with the potential to extend the project to include handwritten text translation. <br>
 
