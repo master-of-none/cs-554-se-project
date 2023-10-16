@@ -1,6 +1,6 @@
 List of features to be implemented in the project:
 
-1) User can create an account.
+1) User can sign into their account.
 2) User can upload an image with text in it.
 3) Application will extract the text from the image.
 4) Application will translate the text to the language selected by the user.
@@ -10,7 +10,7 @@ List of features to be implemented in the project:
 
 
 Minimum Viable Product:
-1) User can create an account.
+1) User can sign into their account.
 2) User can upload an image with text in it.
 3) Application will extract the text from the image.
 4) Application will translate the text to the language selected by the user.
