@@ -1,1 +1,21 @@
 <!DOCTYPE html>
+<html>
+  <head>
+    <title>Image Upload</title>
+  </head>
+  <body>
+    <h2>Upload your image here</h2>
+    <form method="POST" action="/" enctype="multipart/form-data">
+      <label for="file">Select an image (PNG or JPG accepted):</label>
+      <input
+        type="file"
+        name="file"
+        id="file"
+        accept=".png, .jpg, .jpeg"
+        required
+      />
+      <br />
+      <input type="submit" value="Upload" />
+    </form>
+  </body>
+</html>
