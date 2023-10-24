@@ -1,15 +1,36 @@
+import io
+import pandas as pd
 from flask import Flask, request, render_template
 import os
-import pytesseract
-import cv2
+from google.cloud import vision, vision_v1
+
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'google-cloud-vision-credentials.json'
 
 app = Flask(__name__)
 
-pytesseract.pytesseract.tesseract_cmd = os.environ.get('TESSERACT_CMD', 'tesseract')
 UPLOAD_FOLDER = 'images'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
+
+def detect_text(img):
+    client = vision.ImageAnnotatorClient()
+    with io.open(img, 'rb') as image_file:
+        content = image_file.read()
+    image = vision_v1.types.Image(content=content)
+    response = client.text_detection(image=image)
+    texts = response.text_annotations
+    df = pd.DataFrame()
+
+    for text in texts:
+        new_data = pd.DataFrame({
+            'locale': [text.locale],
+            'description': [text.description]
+        })
+        df = pd.concat([df, new_data], ignore_index=True)
+
+    print(df)
+    return df
 
 def allowed_types(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -19,25 +40,19 @@ def upload_images():
     if request.method == 'POST':
         if 'file' not in request.files:
             return "No file found"
-        
+
         file = request.files['file']
         if file.filename == '':
             return "No file selected"
-        
+
         if allowed_types(file.filename):
             image_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
             file.save(image_path)
-            text = read_image(image_path)
+            text = str(detect_text(image_path))
             return render_template('result.html', image_path=image_path, extracted_text=text)
 
     return render_template('index.html')
 
-def read_image(image_path):
-    image = cv2.imread(image_path)
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    threshold_img = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
-    text = pytesseract.image_to_string(threshold_img)
-    return text
 
 if __name__ == '__main__':
     app.run(debug=True)
