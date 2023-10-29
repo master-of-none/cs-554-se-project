@@ -13,6 +13,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
+
 def detect_text(img):
     client = vision.ImageAnnotatorClient()
     with io.open(img, 'rb') as image_file:
@@ -32,8 +33,10 @@ def detect_text(img):
     print(df)
     return df
 
+
 def allowed_types(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 @app.route('/', methods=['GET', 'POST'])
 def upload_images():
