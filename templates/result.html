@@ -2,12 +2,21 @@
 <html>
 <head>
     <title>Text Detection Results</title>
+    <style>
+        /* Apply CSS to control image size */
+        img {
+            max-width: 50%; /* Ensure the image fits within its container */
+            height: auto; /* Maintain aspect ratio */
+            border: 4px solid #000;
+        }
+    </style>
 </head>
 <body>
     <h1>Text Detection Results</h1>
-    <img src="{{ image_path }}" alt="Uploaded Image">
+    <img src="{{ url_for('static', filename='images/' + image_path) }}" alt="Uploaded Image">
+    <p>{{ image_path }}</p>
     <h2>Extracted Text:</h2>
-    <p>{{ extracted_text }}</p>
+    <p>{{ extracted_text | safe }}</p>
     <a href="/">Back to Upload</a>
 </body>
 </html>

@@ -21,17 +21,14 @@ def detect_text(img):
     image = vision_v1.types.Image(content=content)
     response = client.text_detection(image=image)
     texts = response.text_annotations
-    df = pd.DataFrame()
 
+    extracted_text = ""
     for text in texts:
-        new_data = pd.DataFrame({
-            'locale': [text.locale],
-            'description': [text.description]
-        })
-        df = pd.concat([df, new_data], ignore_index=True)
+        extracted_text = text.description.replace("\n", "<br>")
+        break  # Only use the first result
+        # extracted_text.append(text.description)
 
-    print(df)
-    return df
+    return extracted_text
 
 
 def allowed_types(filename):
@@ -49,7 +46,7 @@ def upload_images():
             return "No file selected"
 
         if allowed_types(file.filename):
-            image_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
+            image_path = file.filename
             file.save(image_path)
             text = str(detect_text(image_path))
             return render_template('result.html', image_path=image_path, extracted_text=text)
