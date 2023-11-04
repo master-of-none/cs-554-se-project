@@ -1,5 +1,4 @@
 import io
-import pandas as pd
 from flask import Flask, request, render_template
 import os
 from google.cloud import vision, vision_v1
@@ -26,8 +25,6 @@ def detect_text(img):
     for text in texts:
         extracted_text = text.description.replace("\n", "<br>")
         break  # Only use the first result
-        # extracted_text.append(text.description)
-
     return extracted_text
 
 
