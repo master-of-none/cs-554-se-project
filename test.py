@@ -29,9 +29,9 @@ class AppTestCase(unittest.TestCase):
 
     def test_upload_images_post(self):
         with self.app as client:
-            with open('images/test_image.png', 'rb') as img_file:
+            with open('Test_Images/test_image_english.png', 'rb') as img_file:
                 data = {
-                    'file': (BytesIO(img_file.read()), 'test_image.jpg')
+                    'file': (BytesIO(img_file.read()), 'test_image_english.png')
                 }
                 response = client.post('/', data=data, follow_redirects=True)
                 self.assertEqual(response.status_code, 200)
