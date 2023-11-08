@@ -15,6 +15,7 @@
     <h1>Text Detection Results</h1>
     <img src="{{ url_for('static', filename='images/' + image_path) }}" alt="Uploaded Image">
     <p>{{ image_path }}</p>
+    <p>Language Name: {{ language }}</p>
     <h2>Extracted Text:</h2>
     <p>{{ extracted_text | safe }}</p>
     <a href="/">Back to Upload</a>

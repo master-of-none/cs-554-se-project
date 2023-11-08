@@ -1,7 +1,11 @@
 import io
+import json
+
 from flask import Flask, request, render_template
 import os
 from google.cloud import vision, vision_v1
+from google.cloud import translate
+import pycountry
 
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'google-cloud-vision-credentials.json'
 
@@ -46,10 +50,28 @@ def upload_images():
             image_path = file.filename
             file.save(image_path)
             text = str(detect_text(image_path))
-            return render_template('result.html', image_path=image_path, extracted_text=text)
+            return render_template('result.html', image_path=image_path, extracted_text=text,
+                                   language=detect_extracted_language(text))
 
     return render_template('index.html')
 
+
+def detect_extracted_language(extracted_text):
+    with open(r'google-cloud-vision-credentials.json', 'r') as json_file:
+        credentials = json.load(json_file)
+
+    project_id = credentials.get('project_id')
+    parent = f"projects/{project_id}"
+    client = translate.TranslationServiceClient()
+    response = client.detect_language(parent=parent, content=extracted_text)
+    language_code = response.languages[0].language_code
+    if "-" in language_code:
+        # Split the code into 2 parts to find the language name for the primary part
+        primary_code = language_code.split('-')[0]
+        language = pycountry.languages.get(alpha_2=primary_code)
+    else:
+        language = pycountry.languages.get(alpha_2=language_code)
+    return language.name
 
 if __name__ == '__main__':
     app.run(debug=True)
