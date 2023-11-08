@@ -1,6 +1,6 @@
 import unittest
 
-from app import detect_text
+from app import *
 from app import app
 from io import BytesIO
 from app import allowed_types
@@ -46,6 +46,22 @@ class TestAllowedTypes(unittest.TestCase):
         result = allowed_types(filename)
         self.assertEqual(result, False)
 
+
+class TestLanguageDetection(unittest.TestCase):
+    def test_extracted_language_detection(self):
+        extracted_text = "TEST"
+        result = detect_extracted_language(extracted_text)
+        self.assertEqual(result, 'English')
+
+    def test_extracted_language_detection_mandarin(self):
+        extracted_text = "漢汉字字"
+        result = detect_extracted_language(extracted_text)
+        self.assertEqual(result, 'Chinese')
+
+    def test_extracted_language_detection_japanese(self):
+        extracted_text = "日本語"
+        result = detect_extracted_language(extracted_text)
+        self.assertNotEqual(result, 'Chinese')
 
 
 if __name__ == '__main__':
