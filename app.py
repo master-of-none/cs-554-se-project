@@ -51,7 +51,7 @@ def upload_images():
             file.save(image_path)
             text = str(detect_text(image_path))
             return render_template('result.html', image_path=image_path, extracted_text=text,
-                                   language=detect_extracted_language(text))
+                                   detectedLanguage=detect_extracted_language(text))
 
     return render_template('index.html')
 
@@ -72,6 +72,7 @@ def detect_extracted_language(extracted_text):
     else:
         language = pycountry.languages.get(alpha_2=language_code)
     return language.name
+
 
 if __name__ == '__main__':
     app.run(debug=True)
