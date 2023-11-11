@@ -1,7 +1,7 @@
 import io
 import json
 
-from flask import Flask, request, render_template
+from flask import Flask, jsonify, request, render_template
 import os
 from google.cloud import vision, vision_v1
 from google.cloud import translate
@@ -73,6 +73,25 @@ def detect_extracted_language(extracted_text):
         language = pycountry.languages.get(alpha_2=language_code)
     return language.name
 
+@app.route('/translate', methods=['POST'])
+def translate_text():
+    extracted_text = request.form.get('extracted_text')
+    target_language = request.form.get('target_language')
+
+    with open(r'google-cloud-vision-credentials.json', 'r') as json_file:
+        credentials = json.load(json_file)
+
+    project_id = credentials.get('project_id')
+    parent = f"projects/{project_id}"
+    client = translate.TranslationServiceClient()
+    response = client.translate_text(
+        parent=parent,
+        contents=[extracted_text],
+        target_language_code=target_language,
+    )
+    translated_text = response.translations[0].translated_text
+
+    return jsonify({'translated_text': translated_text})
 
 if __name__ == '__main__':
     app.run(debug=True)
