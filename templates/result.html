@@ -1,55 +1,82 @@
 <!DOCTYPE html>
 <html lang="en-US">
-    <head>
-        <title>Text Detection Results</title>
-        <style>
-            img {
-                max-width: 50%;
-                height: auto;
-                border: 4px solid #000;
-            }
-        </style>
-    </head>
-    <body>
-        <h1>Text Detection Results</h1>
-        <img
-            src="{{ url_for('static', filename='images/' + image_path) }}"
-            alt="Uploaded Image"
-        />
-        <p>{{ image_path }}</p>
+  <head>
+    <title>Text Detection Results</title>
+    <style>
+      img {
+        max-width: 50%;
+        height: auto;
+        border: 4px solid #000;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Text Detection Results</h1>
+    <img
+      src="{{ url_for('static', filename='images/' + image_path) }}"
+      alt="Uploaded Image"
+    />
+    <p>{{ image_path }}</p>
 
-        <p>Detected Language: {{ detectedLanguage }}</p>
+    <p>Detected Language: {{ detectedLanguage }}</p>
 
-        <label for="language">Select Language:</label>
-        <select id="language" name="language"></select>
+    <label for="language">Select Language:</label>
+    <select id="language" name="language"></select>
 
-        <button id="translateButton">Translate</button>
+    <button id="translateButton">Translate</button>
 
-        <h2>Extracted Text:</h2>
-        <p>{{ extracted_text | safe }}</p>
-        <a href="/">Back to Upload</a>
+    <h2>Extracted Text:</h2>
+    <p>{{ extracted_text | safe }}</p>
+    <a href="/">Back to Upload</a>
 
-        <script>
-            const languageDropdown = document.getElementById("language");
-            const allLanguages = [
-                "English",
-                "Chinese",
-                "Spanish",
-                "French",
-                "German",
-            ];
-            const detectedLanguage = "{{ detectedLanguage }}";
+    <script>
+      const languageDropdown = document.getElementById("language");
+      const translateButton = document.getElementById("translateButton");
+      const detectedLanguage = "{{ detected_language }}";
+      const extractedText = "{{ extracted_text | safe }}";
 
-            (() => {
-                for (const language of allLanguages) {
-                    if (language !== detectedLanguage) {
-                        const option = document.createElement("option");
-                        option.value = language;
-                        option.textContent = language;
-                        languageDropdown.appendChild(option);
-                    }
-                }
-            })();
-        </script>
-    </body>
+      const languageCodes = {
+        English: "en",
+        Chinese: "zh-CN",
+        Spanish: "es",
+        French: "fr",
+        German: "de",
+      };
+
+      (() => {
+        for (const [language, code] of Object.entries(languageCodes)) {
+          if (language !== detectedLanguage) {
+            const option = document.createElement("option");
+            option.value = code;
+            option.textContent = language;
+            languageDropdown.appendChild(option);
+          }
+        }
+      })();
+
+      translateButton.addEventListener("click", () => {
+        const selectedLanguageCode = languageDropdown.value;
+        if (selectedLanguageCode) {
+          fetch("/translate", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: `extracted_text=${extractedText}&target_language=${selectedLanguageCode}`,
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              document.getElementById("translatedText").innerHTML =
+                data.translated_text;
+            })
+            .catch((error) => console.error("Error:", error));
+        }
+      });
+    </script>
+
+    <div>
+      <h2>Translated Text:</h2>
+      <p id="translatedText"></p>
+    </div>
+  </body>
 </html>
