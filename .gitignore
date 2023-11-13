@@ -25,7 +25,6 @@ share/python-wheels/
 .installed.cfg
 *.egg
 .idea
-images/
 MANIFEST
 
 # PyInstaller
@@ -167,5 +166,7 @@ se/
 # Credential files
 google-cloud-vision-credentials.json
 
-images/
+*.png
+*.jpg
+*.jpeg
 node_modules/
