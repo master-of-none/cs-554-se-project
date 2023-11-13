@@ -11,7 +11,7 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'google-cloud-vision-credentials
 
 app = Flask(__name__)
 
-UPLOAD_FOLDER = 'images'
+UPLOAD_FOLDER = 'static/images'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
@@ -47,10 +47,10 @@ def upload_images():
             return "No file selected"
 
         if allowed_types(file.filename):
-            image_path = file.filename
+            image_path = UPLOAD_FOLDER+"/"+file.filename
             file.save(image_path)
             text = str(detect_text(image_path))
-            return render_template('result.html', image_path=image_path, extracted_text=text,
+            return render_template('result.html', image_path=file.filename, extracted_text=text,
                                    detectedLanguage=detect_extracted_language(text))
 
     return render_template('index.html')
