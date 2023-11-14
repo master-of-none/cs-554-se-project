@@ -1,8 +1,7 @@
-<script>
 const languageDropdown = document.getElementById("language");
 const translateButton = document.getElementById("translateButton");
-const detectedLanguage = "{{ detectedLanguage }}";
-const extractedText = "{{ extracted_text | safe }}";
+const detectedLanguage = document.getElementById("detectedLanguage").value;
+const extractedText = document.getElementById("extractedText").value;
 
 const languageCodes = {
   English: "en",
@@ -41,4 +40,3 @@ translateButton.addEventListener("click", () => {
       .catch((error) => console.error("Error:", error));
   }
 });
-</script>
