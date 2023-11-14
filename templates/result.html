@@ -29,50 +29,10 @@
     <p>{{ extracted_text | safe }}</p>
     <a href="/">Back to Upload</a>
 
-    <script>
-      const languageDropdown = document.getElementById("language");
-      const translateButton = document.getElementById("translateButton");
-      const detectedLanguage = "{{ detectedLanguage }}";
-      const extractedText = "{{ extracted_text | safe }}";
 
-      const languageCodes = {
-        English: "en",
-        Chinese: "zh-CN",
-        Spanish: "es",
-        French: "fr",
-        German: "de",
-      };
-
-      (() => {
-        for (const [language, code] of Object.entries(languageCodes)) {
-          if (language !== detectedLanguage) {
-            const option = document.createElement("option");
-            option.value = code;
-            option.textContent = language;
-            languageDropdown.appendChild(option);
-          }
-        }
-      })();
-
-      translateButton.addEventListener("click", () => {
-        const selectedLanguageCode = languageDropdown.value;
-        if (selectedLanguageCode) {
-          fetch("/translate", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
-            body: `extracted_text=${extractedText}&target_language=${selectedLanguageCode}`,
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              document.getElementById("translatedText").innerHTML =
-                data.translated_text;
-            })
-            .catch((error) => console.error("Error:", error));
-        }
-      });
-    </script>
+    <input type="hidden" id="detectedLanguage" value="{{ detected_language }}">
+    <input type="hidden" id="extractedText" value="{{ extracted_text | safe }}">
+    <script src="{{ url_for('static', filename='translate.js') }}"></script>
 
     <div>
       <h2>Translated Text:</h2>
