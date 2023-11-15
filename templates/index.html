@@ -2,20 +2,26 @@
 <html>
   <head>
     <title>Image Upload</title>
+    <link rel="stylesheet" type="text/css" href="../static/style.css">
   </head>
   <body>
-    <h2>Upload your image here</h2>
+    <h2 id="uploadHeading">Upload your image here</h2>
+
     <form method="POST" action="/" enctype="multipart/form-data">
-      <label for="file">Select an image (PNG or JPG accepted):</label>
       <input
         type="file"
         name="file"
         id="file"
         accept=".png, .jpg, .jpeg"
+        style="display: none;"
         required
+        onchange="displayFileName()"
       />
+      <button type="button" onclick="document.getElementById('file').click()">Select an image</button>
+      <p id="selectedFileName"></p>
       <br />
       <input type="submit" value="Upload" />
     </form>
+   <script src="../static/animate.js"></script>
   </body>
 </html>
