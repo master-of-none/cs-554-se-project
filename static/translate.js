@@ -2,16 +2,24 @@ const languageDropdown = document.getElementById("language");
 const translateButton = document.getElementById("translateButton");
 const detectedLanguage = document.getElementById("detectedLanguage").value;
 const extractedText = document.getElementById("extractedText").value;
+let languageCodes;
 
-const languageCodes = {
-  English: "en",
-  Chinese: "zh-CN",
-  Spanish: "es",
-  French: "fr",
-  German: "de",
-};
+async function fetchData() {
+  try {
+    const response = await fetch("/static/language_codes.json");
+    if (!response.ok) {
+      throw new Error("Failed to fetch language codes");
+    }
+    languageCodes = await response.json();
+    populateDropdown();
+  } catch (error) {
+    console.error("Error fetching language codes:", error);
+  }
+}
 
-(() => {
+fetchData();
+
+function populateDropdown() {
   for (const [language, code] of Object.entries(languageCodes)) {
     if (language !== detectedLanguage) {
       const option = document.createElement("option");
@@ -20,7 +28,7 @@ const languageCodes = {
       languageDropdown.appendChild(option);
     }
   }
-})();
+};
 
 translateButton.addEventListener("click", () => {
   const selectedLanguageCode = languageDropdown.value;
