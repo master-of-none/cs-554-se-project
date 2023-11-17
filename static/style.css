@@ -79,7 +79,7 @@ input[type="file"] > input {
   cursor: pointer;
 }
 
-form {
+#formDiv {
   animation: slideIn 1s ease-out;
 }
 
@@ -144,6 +144,7 @@ button:hover {
   display: inline-block;
   animation: bounce 2s infinite;
   color: blue;
+  font-size: 20px;
 }
 
 img {
