@@ -44,6 +44,12 @@ translateButton.addEventListener("click", () => {
       .then((data) => {
         document.getElementById("translatedText").innerHTML =
           data.translated_text;
+        if (data.keywords && data.keywords.length > 0) {
+          const keywordsQuery = encodeURIComponent(data.keywords.join(' '));
+          const googleSearchLink = `https://www.google.com/search?q=${keywordsQuery}`;
+          const googleLinkElement = document.getElementById("googleLink");
+          googleLinkElement.href = googleSearchLink;
+        }
       })
       .catch((error) => console.error("Error:", error));
   }
