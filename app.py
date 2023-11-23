@@ -5,10 +5,6 @@ import os
 from google.cloud import vision, vision_v1
 from google.cloud import translate
 import pycountry
-from nltk import pos_tag
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
-from nltk import ne_chunk
 import spacy
 from langdetect import detect
 from sklearn.feature_extraction.text import TfidfVectorizer
