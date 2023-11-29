@@ -10,7 +10,7 @@ body {
   max-width: 710px;
   width: 100%;
   margin-left: 200px;
-  background-image: url("/static/images/cardbg.jpg");
+  background-image: url("/static/background_images/cardbg.jpg");
   background-size: cover;
   background-repeat: no-repeat;
 }
