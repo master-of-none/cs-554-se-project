@@ -1,6 +1,6 @@
 import io
 import json
-from flask import Flask, jsonify, request, render_template, redirect
+from flask import Flask, jsonify, request, render_template
 import os
 from google.cloud import vision, vision_v1
 from google.cloud import translate
@@ -49,7 +49,7 @@ def upload_images():
             return "No file selected"
 
         if allowed_types(file.filename):
-            image_path = UPLOAD_FOLDER+"/"+file.filename
+            image_path = UPLOAD_FOLDER + "/" + file.filename
             file.save(image_path)
             text = str(detect_text(image_path))
             return render_template('result.html', image_path=file.filename, extracted_text=text,
@@ -74,6 +74,7 @@ def detect_extracted_language(extracted_text):
     else:
         language = pycountry.languages.get(alpha_2=language_code)
     return language.name
+
 
 @app.route('/translate', methods=['POST'])
 def translate_text():
@@ -100,18 +101,18 @@ def translate_text():
 
 
 def extract_keywords(text):
-
     language = detect(text)
 
     model_name = f"{language}_core_web_sm"
-    
+
     try:
         nlp = spacy.load(model_name)
     except OSError:
         nlp = spacy.load("en_core_web_sm")
 
     doc = nlp(text)
-    important_words = [token.lemma_ for token in doc if token.is_alpha and token.pos_ in ['NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV']]
+    important_words = [token.lemma_ for token in doc if
+                       token.is_alpha and token.pos_ in ['NOUN', 'PROPN', 'VERB', 'ADJ', 'ADV']]
 
     text_for_tfidf = ' '.join(important_words)
     vectorizer = TfidfVectorizer()
@@ -123,6 +124,7 @@ def extract_keywords(text):
     top_words = sorted(word_tfidf_dict, key=word_tfidf_dict.get, reverse=True)[:3]
 
     return top_words
+
 
 if __name__ == '__main__':
     app.run(debug=True)
