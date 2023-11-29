@@ -4,6 +4,8 @@ from app import *
 from app import app
 from io import BytesIO
 from app import allowed_types
+
+
 class TestDetectText(unittest.TestCase):
     def test_detect_text_english(self):
         result = detect_text('Test_Images/test_image_english.png')
@@ -34,6 +36,7 @@ class AppTestCase(unittest.TestCase):
                 }
                 response = client.post('/', data=data, follow_redirects=True)
                 self.assertEqual(response.status_code, 200)
+
 
 class TestAllowedTypes(unittest.TestCase):
     def test_allowed_extension(self):
