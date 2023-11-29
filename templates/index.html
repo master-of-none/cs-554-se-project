@@ -2,29 +2,38 @@
 <html>
   <head>
     <title>Image Upload</title>
-    <link rel="stylesheet" type="text/css" href="../static/style.css">
+    <link rel="stylesheet" type="text/css" href="../static/style.css" />
   </head>
-  <body>
-  <div id="uploadHeading">
-    <h2 >Upload your image here</h2>
-    </div>
-  <div id="formDiv">
-    <form method="POST" action="/" enctype="multipart/form-data">
-      <input
-        type="file"
-        name="file"
-        id="file"
-        accept=".png, .jpg, .jpeg"
-        style="display: none;"
-        required
-        onchange="displayFileName()"
-      />
-      <button type="button" onclick="document.getElementById('file').click()">Select an image</button>
-      <p id="selectedFileName"></p>
-      <br />
-      <input type="submit" value="Upload" />
-    </form>
-   <script src="../static/animate.js"></script>
+  <body background="/static/images/background.jpg">
+    <div id="cardContainer">
+      <div id="card">
+        <div id="uploadHeading">
+          <h2>Upload your image here</h2>
+        </div>
+        <div id="formDiv">
+          <form method="POST" action="/" enctype="multipart/form-data">
+            <input
+              type="file"
+              name="file"
+              id="file"
+              accept=".png, .jpg, .jpeg"
+              style="display: none"
+              required
+              onchange="displayFileName()"
+            />
+            <button
+              type="button"
+              onclick="document.getElementById('file').click()"
+            >
+              Select an image
+            </button>
+            <p id="selectedFileName"></p>
+            <br />
+            <input type="submit" value="Upload" />
+          </form>
+          <script src="../static/animate.js"></script>
+        </div>
+      </div>
     </div>
   </body>
 </html>

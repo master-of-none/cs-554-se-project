@@ -1,8 +1,25 @@
 body {
   font-family: "Arial", sans-serif;
-  background-color: #f4f4f4;
+  background-size: cover;
+  background-repeat: no-repeat;
   text-align: center;
-  margin: 50px;
+  margin: 200px;
+}
+
+#cardContainer {
+  max-width: 710px;
+  width: 100%;
+  margin-left: 200px;
+  background-image: url("/static/images/cardbg.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+#card {
+  padding: 147px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  animation: slideIn 1s ease-out;
 }
 
 h1 {
@@ -22,7 +39,7 @@ form {
   max-width: 400px;
   margin: 20px auto;
   background-color: #fff;
-  padding: 20px;
+  padding: 10px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
@@ -83,7 +100,8 @@ input[type="file"] > input {
   animation: slideIn 1s ease-out;
 }
 
-select, button {
+select,
+button {
   padding: 8px;
   font-size: 14px;
 }
