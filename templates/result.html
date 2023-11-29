@@ -2,9 +2,9 @@
 <html lang="en-US">
   <head>
     <title>Text Detection Results</title>
-    <link rel="stylesheet" type="text/css" href="../static/style.css">
+    <link rel="stylesheet" type="text/css" href="../static/style.css" />
   </head>
-  <body>
+  <body id="transparent" background="/static/background_images/wall.png">
     <h1>Text Detection Results</h1>
     <img
       src="{{ url_for('static', filename='images/' + image_path) }}"
@@ -23,9 +23,16 @@
     <p>{{ extracted_text | safe }}</p>
     <a href="/">Back to Upload</a>
 
-
-    <input type="hidden" id="detectedLanguage" value="{{ detected_language }}">
-    <input type="hidden" id="extractedText" value="{{ extracted_text | safe }}">
+    <input
+      type="hidden"
+      id="detectedLanguage"
+      value="{{ detected_language }}"
+    />
+    <input
+      type="hidden"
+      id="extractedText"
+      value="{{ extracted_text | safe }}"
+    />
     <script src="{{ url_for('static', filename='translate.js') }}"></script>
 
     <div>
@@ -36,6 +43,5 @@
     <div>
       <a id="googleLink" href="" target="_blank">Search on Google</a>
     </div>
-
   </body>
 </html>
