@@ -3,7 +3,7 @@ google-cloud-vision
 google-cloud-translate
 pycountry
 spacy
-sckit-learn
+scikit-learn
 pandas
 numpy
 langdetect
