@@ -1,0 +1,9 @@
+flask
+google-cloud-vision
+google-cloud-translate
+pycountry
+spacy
+sckit-learn
+pandas
+numpy
+langdetect
