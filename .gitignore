@@ -166,7 +166,5 @@ se/
 # Credential files
 google-cloud-vision-credentials.json
 
-*.png
-*.jpg
-*.jpeg
+images/
 node_modules/
