@@ -1,4 +1,4 @@
-# image-text-translation <br>
+# Text Visionator<br>
 
 # Description
 
